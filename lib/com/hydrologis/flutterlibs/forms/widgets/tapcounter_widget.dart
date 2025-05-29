@@ -121,12 +121,12 @@ class _TapcounterItemState extends State<_TapcounterItemWidget> {
             Expanded(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: SmashColors.mainDecorations,
-                  foregroundColor: Colors.white,
+                  backgroundColor: const Color(0xFFD0ECA8),
+                  foregroundColor: const Color(0xFF121F02),
                 ),
                 child: Icon(
                   Icons.remove_circle_outline,
-                  color: Colors.white,
+                  color: const Color(0xFF121F02),
                 ),
                 onPressed: () {
                   int valueToDecrement =
@@ -177,12 +177,12 @@ class _TapcounterItemState extends State<_TapcounterItemWidget> {
             Expanded(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: SmashColors.mainDecorations,
-                  foregroundColor: Colors.white,
+                  backgroundColor: const Color(0xFFD0ECA8),
+                  foregroundColor: const Color(0xFF121F02),
                 ),
                 child: Icon(
                   Icons.add_circle_outline,
-                  color: Colors.white,
+                  color: const Color(0xFF121F02),
                 ),
                 onPressed: () {
                   int valueToIncrement =
