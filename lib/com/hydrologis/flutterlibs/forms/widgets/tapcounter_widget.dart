@@ -11,7 +11,7 @@ class TapcounterFormWidget extends AFormWidget {
     initItem(formItem, presentationMode);
 
     Key? itemActualKey;
-    if (this.formItem.key != null && this.formItem.key!.isNotEmpty) {
+    if (this.formItem.key.isNotEmpty) {
       itemActualKey = getKey(this.formItem.key);
     } else {
       itemActualKey = getKey(null);
@@ -148,26 +148,44 @@ class _TapcounterItemState extends State<_TapcounterItemWidget> {
                   controller: _controller,
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'^-?[0-9]*')),
+                  ],
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.zero,
                   ),
                   onChanged: (text) {
+                    if (text.isEmpty) {
+                      // If text is empty, set value to 0
+                      widget.formItem.setValue(0);
+                      return;
+                    }
+                    
                     final int? newIntValue = int.tryParse(text);
                     if (newIntValue != null) {
                       if (newIntValue != _getFormItemIntValue()) {
                         widget.formItem.setValue(newIntValue);
                       }
+                    } else {
+                      // If parsing fails, revert to the current form item value
+                      _updateControllerTextFromFormItem();
                     }
                   },
                   onEditingComplete: () {
-                    final int? finalValue = int.tryParse(_controller.text);
-                    if (finalValue != null) {
-                      if (finalValue != _getFormItemIntValue()) {
-                        widget.formItem.setValue(finalValue);
-                      }
-                    } else {
+                    if (_controller.text.isEmpty) {
+                      // If empty, set to 0 and update display
+                      widget.formItem.setValue(0);
                       _updateControllerTextFromFormItem();
+                    } else {
+                      final int? finalValue = int.tryParse(_controller.text);
+                      if (finalValue != null) {
+                        if (finalValue != _getFormItemIntValue()) {
+                          widget.formItem.setValue(finalValue);
+                        }
+                      } else {
+                        _updateControllerTextFromFormItem();
+                      }
                     }
                     FocusScope.of(context).unfocus();
                   },
